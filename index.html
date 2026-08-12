@@ -162,12 +162,12 @@
             width: 100%;
             background: var(--bg-color);
             border-radius: 0 0 var(--border-radius) var(--border-radius);
-            padding: 75px 20px 35px;
+            padding: 85px 20px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            min-height: 360px;
+            min-height: 430px;
         }
 
         .avatar-container {
@@ -234,8 +234,8 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-top: 10px;
-            margin-bottom: 2px;
+            margin-top: 8px;
+            margin-bottom: 4px;
             position: relative;
             z-index: 3;
         }
@@ -254,23 +254,156 @@
             flex-shrink: 0;
         }
 
-        .username-container {
+        .bio-desc {
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 3;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .birthdate {
+            cursor: pointer;
+            color: #fff;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            position: relative;
+        }
+
+        .birthdate-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e1e2a;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .birthdate-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1e1e2a;
+        }
+
+        .birthdate-tooltip.show {
+            display: block;
+            animation: tooltipFade 0.2s ease;
+        }
+
+        @keyframes tooltipFade {
+            from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Кнопки соцсетей без кругов */
+        .social-links {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 20px;
+            margin-bottom: 16px;
             position: relative;
             z-index: 3;
         }
 
-        .username {
-            font-size: 16px;
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            transition: color 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: #ffffff;
+            transform: translateY(-2px) scale(1.08);
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+        }
+
+        .social-link:active {
+            transform: scale(0.92);
+        }
+
+        .social-link svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+            display: block;
+        }
+
+        /* Toast уведомление */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(20, 22, 30, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 18px 10px 14px;
+            border-radius: 999px;
+            font-size: 14px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.3px;
-            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
-            line-height: 1.3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast .check-icon {
+            display: inline-flex;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #22c55e;
+            color: #ffffff;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+        }
+
+        .toast .check-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: #ffffff;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
         }
 
         .music-player {
@@ -281,7 +414,7 @@
             align-items: center;
             gap: 12px;
             width: 100%;
-            margin-top: 12px;
+            margin-top: 8px;
             cursor: pointer;
             transition: background 0.2s;
             flex-wrap: wrap;
@@ -428,8 +561,10 @@
             }
             .name { font-size: 22px; }
             .badge-icon { height: 18px; }
-            .username { font-size: 14px; }
-            .black-section { padding: 60px 15px 25px; min-height: 310px; }
+            .bio-desc { font-size: 14px; }
+            .social-links { gap: 16px; }
+            .social-link svg { width: 24px; height: 24px; }
+            .black-section { padding: 70px 15px 25px; min-height: 380px; }
             .music-cover { width: 44px; height: 44px; border-radius: 10px; }
             .music-title { font-size: 14px; }
             .music-artist { font-size: 12px; }
@@ -445,8 +580,7 @@
                 --card-max-width: 360px;
             }
             .name { font-size: 24px; }
-            .username { font-size: 15px; }
-            .black-section { min-height: 330px; padding: 70px 18px 30px; }
+            .black-section { min-height: 400px; padding: 75px 18px 30px; }
         }
 
         @media screen and (max-width: 900px) and (orientation: landscape) {
@@ -455,10 +589,12 @@
                 --banner-height: 110px;
                 --card-max-width: 340px;
             }
-            .black-section { padding: 50px 15px 20px; min-height: 260px; }
+            .black-section { padding: 60px 15px 20px; min-height: 320px; }
             .name { font-size: 18px; }
-            .username { font-size: 12px; }
             .badge-icon { height: 15px; }
+            .bio-desc { font-size: 13px; margin-bottom: 10px; }
+            .social-links { gap: 14px; }
+            .social-link svg { width: 22px; height: 22px; }
             .music-cover { width: 38px; height: 38px; }
             .music-title { font-size: 13px; }
             .music-artist { font-size: 11px; }
@@ -496,8 +632,32 @@
                 <img src="Sava.gif" alt="badge" class="badge-icon" draggable="false">
             </div>
 
-            <div class="username-container">
-                <span class="username">@Sava_Xz</span>
+            <div class="bio-desc">
+                <span>y.o 14</span>
+                <span class="birthdate" id="birthdate">11.09
+                    <span class="birthdate-tooltip" id="birthdateTooltip">🎂 Это мой день рождения</span>
+                </span>
+            </div>
+
+            <div class="social-links">
+                <!-- Telegram Icon -->
+                <a href="https://t.me/sava_xz" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z"/>
+                    </svg>
+                </a>
+                <!-- TikTok Icon -->
+                <a href="https://www.tiktok.com/@.l0st.everit1ng?_r=1&_t=ZS-98pZSNYioSW" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.901 2.89 2.893 2.893 0 0 1-2.89-2.89 2.893 2.893 0 0 1 2.89-2.89c.223 0 .437.034.65.085V9.38a6.328 6.328 0 0 0-.65-.035 6.338 6.338 0 0 0-6.338 6.338A6.338 6.338 0 0 0 9.473 22a6.338 6.338 0 0 0 6.338-6.338V9.162a8.16 8.16 0 0 0 4.778 1.52V7.237a4.821 4.821 0 0 1-.999-.551z"/>
+                    </svg>
+                </a>
+                <!-- Share Icon -->
+                <button class="social-link" id="shareButton" aria-label="Поделиться">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                    </svg>
+                </button>
             </div>
 
             <div class="music-player" id="musicPlayer">
@@ -520,6 +680,15 @@
     </div>
 
     <audio id="song" src="Music.mp3" preload="auto"></audio>
+
+    <div class="toast" id="toast">
+        <span class="check-icon">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </span>
+        Ссылка скопирована
+    </div>
 
     <div class="desktop-message">
         <span class="icon">📱</span>
@@ -592,6 +761,60 @@
                 }
             });
 
+            // ─── Всплывающее окно для даты рождения ───
+            const birthdate = document.getElementById('birthdate');
+            const tooltip = document.getElementById('birthdateTooltip');
+            if (birthdate && tooltip) {
+                birthdate.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    tooltip.classList.toggle('show');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!birthdate.contains(e.target)) {
+                        tooltip.classList.remove('show');
+                    }
+                });
+            }
+
+            // ─── Кнопка "Поделиться" с Toast-уведомлением ───
+            const shareButton = document.getElementById('shareButton');
+            const toast = document.getElementById('toast');
+            let toastTimeout;
+
+            function showToast() {
+                if (toast) {
+                    toast.classList.add('show');
+                    clearTimeout(toastTimeout);
+                    toastTimeout = setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 2000);
+                }
+            }
+
+            if (shareButton) {
+                shareButton.addEventListener('click', async () => {
+                    const url = 'https://savaxz.github.io/Sava/';
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(url);
+                            showToast();
+                        } else {
+                            // Fallback для старых браузеров
+                            const textArea = document.createElement('textarea');
+                            textArea.value = url;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            showToast();
+                        }
+                    } catch (err) {
+                        console.warn('Ошибка копирования:', err);
+                    }
+                });
+            }
+
+            // ─── Частицы ───
             const canvas = document.getElementById('particle-canvas');
             if (canvas) {
                 const ctx = canvas.getContext('2d');
@@ -676,6 +899,7 @@
                 });
             }
 
+            // ─── Плеер с таймерами ───
             const player = document.getElementById('musicPlayer');
             const progressFill = document.getElementById('progressFill');
             const progressDot = document.getElementById('progressDot');
@@ -730,6 +954,7 @@
                 });
             }
 
+            // ─── Эффект печати заголовка ───
             const titleText = "Sava — Bio";
             let i = 0;
             let isDeleting = false;
@@ -765,3 +990,4 @@
     </script>
 </body>
 </html>
+
