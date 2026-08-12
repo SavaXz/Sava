@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Sava — Bio</title>
+    <style>
+        :root {
+            --avatar-size: 130px;
+            --banner-height: 170px;
+            --card-width: 90vw;
+            --card-max-width: 380px;
+            --border-radius: 28px;
+            --bg-color: #090a0f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+            background: #000;
+        }
+
+        body {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #090a0f, #0f111a, #0a0d14, #0c0f17, #090a0f);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            filter: blur(12px);
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            cursor: pointer;
+            transition: opacity 0.6s ease;
+            opacity: 1;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-time {
+            font-size: 72px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 4px;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.6), 0 0 90px rgba(255, 255, 255, 0.4);
+            user-select: none;
+            margin-bottom: 16px;
+        }
+
+        .splash-hint {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 2px;
+            animation: hintPulse 2s ease-in-out infinite;
+            user-select: none;
+            font-weight: 600;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .bio-card {
+            position: relative;
+            z-index: 10;
+            width: var(--card-width);
+            max-width: var(--card-max-width);
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: visible;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+
+        .bio-card.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .banner {
+            width: 100%;
+            height: var(--banner-height);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            overflow: hidden;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .black-section {
+            width: 100%;
+            background: var(--bg-color);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            padding: 75px 20px 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-height: 360px;
+        }
+
+        .avatar-container {
+            position: absolute;
+            top: calc(-1 * var(--avatar-size) / 2);
+            left: 50%;
+            transform: translateX(-50%);
+            width: var(--avatar-size);
+            height: var(--avatar-size);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(var(--avatar-size) * 2.2);
+            height: calc(var(--avatar-size) * 2.2);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .avatar-wrapper {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.7), 0 0 35px 10px rgba(255, 255, 255, 0.4), 0 0 60px 16px rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 3;
+            animation: avatarGlowPulse 3s ease-in-out infinite;
+        }
+
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            border-radius: 50%;
+            background: #111;
+        }
+
+        @keyframes avatarGlowPulse {
+            0%, 100% {
+                box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.7), 0 0 35px 10px rgba(255, 255, 255, 0.4), 0 0 60px 16px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 22px 6px rgba(255, 255, 255, 0.85), 0 0 45px 14px rgba(255, 255, 255, 0.55), 0 0 70px 22px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        .name-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 2px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .name {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .badge-icon {
+            height: 22px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .username-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .username {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.3px;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+            line-height: 1.3;
+        }
+
+        .music-player {
+            background: #0e1018;
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 3;
+        }
+
+        .music-player:active {
+            background: #151721;
+        }
+
+        .music-cover {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .music-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .music-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-artist {
+            font-size: 14px;
+            color: #aaa;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            flex-basis: 100%;
+            margin-top: 0;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.3s ease;
+        }
+
+        .music-player.playing .progress-row {
+            margin-top: 10px;
+            max-height: 30px;
+            opacity: 1;
+        }
+
+        .time-current,
+        .time-duration {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            min-width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 3px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--bg-color);
+            border-radius: 3px;
+            width: 0%;
+            position: relative;
+            transition: width 0.05s linear;
+        }
+
+        .progress-dot {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .desktop-message {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: #111;
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            padding: 40px 20px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 12px;
+            letter-spacing: 0.4px;
+        }
+
+        .desktop-message .icon {
+            font-size: 60px;
+            margin-bottom: 8px;
+        }
+
+        @media screen and (min-width: 901px) {
+            .animated-bg,
+            .overlay,
+            .bio-card,
+            #splash-screen {
+                display: none !important;
+            }
+            .desktop-message {
+                display: flex !important;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            :root {
+                --avatar-size: 100px;
+                --banner-height: 130px;
+                --card-max-width: 320px;
+                --border-radius: 24px;
+            }
+            .name { font-size: 22px; }
+            .badge-icon { height: 18px; }
+            .username { font-size: 14px; }
+            .black-section { padding: 60px 15px 25px; min-height: 310px; }
+            .music-cover { width: 44px; height: 44px; border-radius: 10px; }
+            .music-title { font-size: 14px; }
+            .music-artist { font-size: 12px; }
+            #particle-canvas { width: calc(var(--avatar-size) * 2); height: calc(var(--avatar-size) * 2); }
+            .splash-time { font-size: 56px; }
+            .splash-hint { font-size: 16px; }
+        }
+
+        @media screen and (min-width: 401px) and (max-width: 500px) {
+            :root {
+                --avatar-size: 115px;
+                --banner-height: 150px;
+                --card-max-width: 360px;
+            }
+            .name { font-size: 24px; }
+            .username { font-size: 15px; }
+            .black-section { min-height: 330px; padding: 70px 18px 30px; }
+        }
+
+        @media screen and (max-width: 900px) and (orientation: landscape) {
+            :root {
+                --avatar-size: 80px;
+                --banner-height: 110px;
+                --card-max-width: 340px;
+            }
+            .black-section { padding: 50px 15px 20px; min-height: 260px; }
+            .name { font-size: 18px; }
+            .username { font-size: 12px; }
+            .badge-icon { height: 15px; }
+            .music-cover { width: 38px; height: 38px; }
+            .music-title { font-size: 13px; }
+            .music-artist { font-size: 11px; }
+            #particle-canvas { width: calc(var(--avatar-size) * 1.8); height: calc(var(--avatar-size) * 1.8); }
+            .splash-time { font-size: 48px; }
+            .splash-hint { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-bg"></div>
+    <div class="overlay"></div>
+
+    <div id="splash-screen">
+        <div class="splash-time" id="splashTime">00:00</div>
+        <div class="splash-hint">коснись экрана</div>
+    </div>
+
+    <div class="bio-card" id="bioCard">
+        <div class="banner">
+            <img src="Sss.jpg" alt="banner" draggable="false">
+        </div>
+
+        <div class="black-section">
+            <div class="avatar-container">
+                <canvas id="particle-canvas"></canvas>
+                <div class="avatar-wrapper">
+                    <img src="https://i.ibb.co/1C3GsZL/590870-dreamcore.jpg" alt="Sava Avatar" loading="eager" draggable="false">
+                </div>
+            </div>
+
+            <div class="name-row">
+                <span class="name">Sava</span>
+                <img src="Sava.gif" alt="badge" class="badge-icon" draggable="false">
+            </div>
+
+            <div class="username-container">
+                <span class="username">@Sava_Xz</span>
+            </div>
+
+            <div class="music-player" id="musicPlayer">
+                <img src="Music.jpg" alt="Обложка" class="music-cover" draggable="false">
+                <div class="music-info">
+                    <span class="music-title">Смотри на небо</span>
+                    <span class="music-artist">KARADA</span>
+                </div>
+                <div class="progress-row">
+                    <span class="time-current" id="currentTime">0:00</span>
+                    <div class="progress-container">
+                        <div class="progress-fill" id="progressFill">
+                            <div class="progress-dot" id="progressDot"></div>
+                        </div>
+                    </div>
+                    <span class="time-duration" id="durationTime">3:11</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="song" src="Music.mp3" preload="auto"></audio>
+
+    <div class="desktop-message">
+        <span class="icon">📱</span>
+        <span>Открой на телефоне</span>
+        <span style="font-size:14px;opacity:0.6;">Эта страница только для мобильных устройств</span>
+    </div>
+
+    <script>
+        (function() {
+            function checkScreen() {
+                const bg = document.querySelector('.animated-bg');
+                const overlay = document.querySelector('.overlay');
+                const bioCard = document.getElementById('bioCard');
+                const splash = document.getElementById('splash-screen');
+                const desktopMsg = document.querySelector('.desktop-message');
+                if (window.innerWidth > 900) {
+                    if (bg) bg.style.display = 'none';
+                    if (overlay) overlay.style.display = 'none';
+                    if (bioCard) bioCard.style.display = 'none';
+                    if (splash) splash.style.display = 'none';
+                    if (desktopMsg) desktopMsg.style.display = 'flex';
+                } else {
+                    if (bg) bg.style.display = '';
+                    if (overlay) overlay.style.display = '';
+                    if (bioCard) bioCard.style.display = '';
+                    if (splash) splash.style.display = '';
+                    if (desktopMsg) desktopMsg.style.display = 'none';
+                }
+            }
+            checkScreen();
+            window.addEventListener('resize', checkScreen);
+            window.addEventListener('orientationchange', () => setTimeout(checkScreen, 150));
+
+            document.addEventListener('dblclick', (e) => {
+                if (window.innerWidth <= 900) e.preventDefault();
+            }, { passive: false });
+
+            const avatarWrapper = document.querySelector('.avatar-wrapper');
+            if (avatarWrapper) avatarWrapper.addEventListener('contextmenu', (e) => e.preventDefault());
+
+            function updateSplashTime() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const timeStr = `${hours}:${minutes}`;
+                const el = document.getElementById('splashTime');
+                if (el) el.textContent = timeStr;
+            }
+            updateSplashTime();
+            setInterval(updateSplashTime, 1000);
+
+            const splash = document.getElementById('splash-screen');
+            const bioCard = document.getElementById('bioCard');
+            const audio = document.getElementById('song');
+            let started = false;
+
+            splash.addEventListener('click', () => {
+                if (started) return;
+                started = true;
+
+                splash.classList.add('hidden');
+                bioCard.classList.add('visible');
+
+                if (audio) {
+                    audio.play().then(() => {
+                        document.getElementById('musicPlayer').classList.add('playing');
+                    }).catch(e => {
+                        console.warn('Автовоспроизведение не удалось, возможно потребуется ещё один клик');
+                    });
+                }
+            });
+
+            const canvas = document.getElementById('particle-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                function getAvatarSize() {
+                    const style = getComputedStyle(document.documentElement);
+                    return parseFloat(style.getPropertyValue('--avatar-size').trim());
+                }
+                function resizeCanvas() {
+                    const avatarSize = getAvatarSize();
+                    const canvasSize = avatarSize * 2.2;
+                    canvas.width = canvasSize;
+                    canvas.height = canvasSize;
+                    canvas.style.width = canvasSize + 'px';
+                    canvas.style.height = canvasSize + 'px';
+                    return canvasSize;
+                }
+                let currentSize = resizeCanvas();
+                const particles = [];
+                const maxParticles = 45;
+                class Particle {
+                    constructor() { this.reset(true); }
+                    reset(initial = false) {
+                        const size = currentSize || 280;
+                        this.centerX = size / 2;
+                        this.centerY = size / 2;
+                        const avatarSize = getAvatarSize();
+                        this.startRadius = avatarSize * 0.48;
+                        this.angle = Math.random() * Math.PI * 2;
+                        this.dist = this.startRadius + (initial ? Math.random() * 50 : 0);
+                        this.speed = 0.2 + Math.random() * 0.4;
+                        this.size = 1 + Math.random() * 2.2;
+                        this.alpha = initial ? Math.random() : 1;
+                        this.fadeSpeed = 0.004 + Math.random() * 0.007;
+                        this.isStar = Math.random() > 0.4;
+                        this.color = Math.random() > 0.25 ? '#ffffff' : '#d4c5f0';
+                    }
+                    update() {
+                        this.dist += this.speed;
+                        this.alpha -= this.fadeSpeed;
+                        if (this.alpha <= 0) this.reset(false);
+                    }
+                    draw() {
+                        ctx.save();
+                        const x = this.centerX + Math.cos(this.angle) * this.dist;
+                        const y = this.centerY + Math.sin(this.angle) * this.dist;
+                        ctx.globalAlpha = Math.max(0, this.alpha);
+                        ctx.fillStyle = this.color;
+                        if (this.isStar) {
+                            const s = this.size;
+                            ctx.beginPath();
+                            ctx.moveTo(x - s * 2, y);
+                            ctx.quadraticCurveTo(x, y, x, y - s * 2);
+                            ctx.quadraticCurveTo(x, y, x + s * 2, y);
+                            ctx.quadraticCurveTo(x, y, x, y + s * 2);
+                            ctx.quadraticCurveTo(x, y, x - s * 2, y);
+                            ctx.fill();
+                        } else {
+                            ctx.beginPath();
+                            ctx.arc(x, y, this.size, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                        ctx.restore();
+                    }
+                }
+                function createParticles() {
+                    particles.length = 0;
+                    for (let i = 0; i < maxParticles; i++) particles.push(new Particle());
+                }
+                createParticles();
+                function animateParticles() {
+                    if (!canvas || !ctx) return;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(p => { p.update(); p.draw(); });
+                    requestAnimationFrame(animateParticles);
+                }
+                animateParticles();
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth <= 900) {
+                        currentSize = resizeCanvas();
+                        createParticles();
+                    }
+                });
+            }
+
+            const player = document.getElementById('musicPlayer');
+            const progressFill = document.getElementById('progressFill');
+            const progressDot = document.getElementById('progressDot');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationTimeEl = document.getElementById('durationTime');
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return mins + ':' + (secs < 10 ? '0' : '') + secs;
+            }
+
+            if (audio && player) {
+                audio.addEventListener('loadedmetadata', () => {
+                    if (durationTimeEl && audio.duration && isFinite(audio.duration)) {
+                        durationTimeEl.textContent = formatTime(audio.duration);
+                    }
+                });
+
+                player.addEventListener('click', (e) => {
+                    if (audio.paused) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                    }
+                });
+
+                audio.addEventListener('play', () => {
+                    player.classList.add('playing');
+                });
+
+                audio.addEventListener('ended', () => {
+                    player.classList.remove('playing');
+                    if (progressFill) progressFill.style.width = '0%';
+                    if (progressDot) progressDot.style.left = '0%';
+                    if (currentTimeEl) currentTimeEl.textContent = '0:00';
+                });
+
+                audio.addEventListener('timeupdate', () => {
+                    if (audio.duration && progressFill && progressDot) {
+                        const percent = (audio.currentTime / audio.duration) * 100;
+                        progressFill.style.width = percent + '%';
+                        progressDot.style.left = '100%';
+                        if (currentTimeEl) {
+                            currentTimeEl.textContent = formatTime(audio.currentTime);
+                        }
+                    }
+                });
+
+                audio.addEventListener('error', () => {
+                    console.warn('Не удалось загрузить Music.mp3');
+                });
+            }
+
+            const titleText = "Sava — Bio";
+            let i = 0;
+            let isDeleting = false;
+            let currentTitle = "";
+            const typeSpeed = 120;
+            const deleteSpeed = 60;
+            const pauseAfterFull = 2000;
+
+            function typeTitle() {
+                if (!isDeleting) {
+                    currentTitle = titleText.substring(0, i + 1);
+                    i++;
+                    if (i === titleText.length) {
+                        isDeleting = true;
+                        setTimeout(typeTitle, pauseAfterFull);
+                        document.title = currentTitle;
+                        return;
+                    }
+                } else {
+                    currentTitle = titleText.substring(0, i - 1);
+                    i--;
+                    if (i === 0) {
+                        isDeleting = false;
+                    }
+                }
+                document.title = currentTitle;
+                const delay = isDeleting ? deleteSpeed : typeSpeed;
+                setTimeout(typeTitle, delay);
+            }
+            document.title = "";
+            typeTitle();
+        })();
+    </script>
+</body>
+</html>
