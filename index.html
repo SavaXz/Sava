@@ -19,7 +19,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent; /* убирает синюю подсветку при тапе */
+        -webkit-tap-highlight-color: transparent;
     }
 
     html, body {
@@ -42,7 +42,6 @@
         justify-content: center;
     }
 
-    /* Сброс фокуса/обводки на всех интерактивных элементах */
     a, button {
         outline: none;
         -webkit-tap-highlight-color: transparent;
@@ -89,7 +88,6 @@
         z-index: 1;
     }
 
-    /* Начальный экран */
     #splash-screen {
         position: fixed;
         inset: 0;
@@ -131,7 +129,6 @@
         50% { opacity: 1; }
     }
 
-    /* Карточка */
     .bio-card {
         position: relative;
         z-index: 10;
@@ -142,7 +139,7 @@
         box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08);
         display: flex;
         flex-direction: column;
-        overflow: visible; /* на телефоне аватар выходит за баннер */
+        overflow: visible;
         opacity: 0;
         transition: opacity 0.6s ease;
         pointer-events: none;
@@ -153,7 +150,6 @@
         pointer-events: auto;
     }
 
-    /* ===== Мобильная раскладка (по умолчанию) ===== */
     .layout-mobile {
         display: flex;
         flex-direction: column;
@@ -272,7 +268,7 @@
     }
 
     .badge-icon {
-        height: 30px; /* было 22px — сделал заметно крупнее */
+        height: 30px;
         width: auto;
         flex-shrink: 0;
     }
@@ -452,7 +448,7 @@
     }
     .progress-fill {
         height: 100%;
-        background: #ffffff; /* было #000 — на тёмном плеере прогресс был почти не виден */
+        background: #ffffff;
         border-radius: 3px;
         width: 0%;
         position: relative;
@@ -472,7 +468,6 @@
         pointer-events: none;
     }
 
-    /* Toast */
     .toast {
         position: fixed;
         bottom: 30px;
@@ -522,13 +517,12 @@
         fill: none;
     }
 
-    /* ===== ПК-раскладка (от 901px) ===== */
     @media (min-width: 901px) {
         .bio-card {
             flex-direction: row;
             width: 760px;
             max-width: 95vw;
-            overflow: hidden; /* тут аватар уже не выходит за пределы карточки */
+            overflow: hidden;
         }
         .layout-mobile { display: none; }
         .layout-desktop {
@@ -564,7 +558,6 @@
         }
     }
 
-    /* Маленькие экраны */
     @media (max-width: 400px) {
         :root {
             --avatar-size: 100px;
@@ -585,7 +578,6 @@
         .splash-hint { font-size: 16px; }
     }
 
-    /* Телефон в альбомной ориентации — сжимаем, но не переключаем на ПК-вёрстку */
     @media (max-width: 900px) and (orientation: landscape) {
         :root {
             --avatar-size: 80px;
@@ -618,7 +610,6 @@
 
 <div class="bio-card" id="bioCard">
 
-    <!-- ===== Мобильная раскладка ===== -->
     <div class="layout-mobile">
         <div class="banner">
             <img src="Sss.jpg" alt="banner" draggable="false">
@@ -673,7 +664,6 @@
         </div>
     </div>
 
-    <!-- ===== ПК-раскладка ===== -->
     <div class="layout-desktop">
         <div class="left-side">
             <div class="avatar-container">
@@ -741,7 +731,6 @@
 
 <script>
 (function() {
-    // ── Время на сплэше ──
     function updateSplashTime() {
         const now = new Date();
         const h = String(now.getHours()).padStart(2, '0');
@@ -752,7 +741,6 @@
     updateSplashTime();
     setInterval(updateSplashTime, 1000);
 
-    // ── Сплэш → показать карточку, запустить музыку ──
     const splash = document.getElementById('splash-screen');
     const bioCard = document.getElementById('bioCard');
     const audio = document.getElementById('song');
@@ -766,13 +754,11 @@
         if (audio) audio.play().catch(() => console.warn('Автовоспроизведение заблокировано'));
     });
 
-    // ── Запрет двойного тапа-зума и контекстного меню на аватарке ──
     document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
     document.querySelectorAll('.avatar-wrapper').forEach(el => {
         el.addEventListener('contextmenu', (e) => e.preventDefault());
     });
 
-    // ── Тултип даты рождения (работает для обеих раскладок) ──
     document.querySelectorAll('.birthdate').forEach(bd => {
         const tip = bd.querySelector('.birthdate-tooltip');
         bd.addEventListener('click', (e) => {
@@ -787,7 +773,6 @@
         }
     });
 
-    // ── Кнопка "Поделиться" (для обеих раскладок) ──
     const toast = document.getElementById('toast');
     let toastTimeout;
     function showToast() {
@@ -798,7 +783,7 @@
     }
     document.querySelectorAll('.share-button').forEach(btn => {
         btn.addEventListener('click', async () => {
-            const url = 'https://savaxz.github.io/Sava/';
+            const url = 'sava-xz.ru';
             try {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     await navigator.clipboard.writeText(url);
@@ -817,7 +802,6 @@
         });
     });
 
-    // ── Частицы вокруг каждой аватарки ──
     document.querySelectorAll('.avatar-container').forEach(container => {
         const canvas = container.querySelector('.particle-canvas');
         if (!canvas) return;
@@ -894,7 +878,6 @@
         createParticles();
 
         function animate() {
-            // рисуем только если канвас реально видим (экономим ресурсы на скрытой раскладке)
             if (canvas.getClientRects().length) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 particles.forEach(p => { p.update(); p.draw(); });
@@ -906,7 +889,6 @@
         window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
     });
 
-    // ── Музыкальный плеер (один audio, несколько UI-копий) ──
     const players = document.querySelectorAll('.music-player');
 
     function formatTime(sec) {
@@ -951,7 +933,6 @@
         });
     });
 
-    // ── Эффект печати в заголовке вкладки ──
     const titleText = 'Sava — Bio';
     let i = 0, isDeleting = false;
     const typeSpeed = 120, deleteSpeed = 60, pauseAfterFull = 2000;
