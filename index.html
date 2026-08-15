@@ -362,28 +362,6 @@
         display: block;
     }
 
-    .views-counter {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        margin-top: 12px;
-        position: relative;
-        z-index: 3;
-        font-size: 14px;
-        color: rgba(255,255,255,0.6);
-        letter-spacing: 0.5px;
-    }
-    .views-counter svg {
-        width: 18px;
-        height: 18px;
-        fill: rgba(255,255,255,0.6);
-    }
-    .views-count {
-        font-weight: 700;
-        color: #fff;
-    }
-
     .music-player {
         background: #0e1018;
         border-radius: 16px;
@@ -630,8 +608,6 @@
         .splash-hint { font-size: 16px; }
         .music-controls button { width: 28px; height: 28px; }
         .music-controls button svg { width: 18px; height: 18px; }
-        .views-counter { font-size: 12px; }
-        .views-counter svg { width: 16px; height: 16px; }
     }
 
     @media (max-width: 900px) and (orientation: landscape) {
@@ -653,8 +629,6 @@
         .splash-hint { font-size: 14px; }
         .music-controls button { width: 26px; height: 26px; }
         .music-controls button svg { width: 16px; height: 16px; }
-        .views-counter { font-size: 11px; }
-        .views-counter svg { width: 14px; height: 14px; }
     }
 </style>
 </head>
@@ -706,12 +680,6 @@
                 </button>
             </div>
 
-            <div class="views-counter">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-                <span>Просмотров:</span>
-                <span class="views-count">...</span>
-            </div>
-
             <div class="music-player">
                 <img src="Music.jpg" alt="Обложка" class="music-cover" draggable="false">
                 <div class="music-info">
@@ -719,9 +687,9 @@
                     <span class="music-artist">KARADA</span>
                 </div>
                 <div class="music-controls">
-                    <button class="prev-btn" aria-label="Предыдущий"><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
-                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
-                    <button class="next-btn" aria-label="Следующий"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
+                    <button class="prev-btn" aria-label="Предыдущий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
+                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
+                    <button class="next-btn" aria-label="Следующий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
                 </div>
                 <div class="progress-row">
                     <span class="time-current">0:00</span>
@@ -757,7 +725,7 @@
             </div>
 
             <div class="social-links">
-                <a href="https://t.me/sava_xz" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                <a href="https://t.me/Sava_XzBio" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z"/></svg>
                 </a>
                 <a href="https://www.tiktok.com/@.l0st.everit1ng?_r=1&_t=ZS-98pZSNYioSW" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
@@ -766,12 +734,6 @@
                 <button class="social-link share-button" aria-label="Поделиться">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
                 </button>
-            </div>
-
-            <div class="views-counter">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-                <span>Просмотров:</span>
-                <span class="views-count">...</span>
             </div>
         </div>
 
@@ -786,9 +748,9 @@
                     <span class="music-artist">KARADA</span>
                 </div>
                 <div class="music-controls">
-                    <button class="prev-btn" aria-label="Предыдущий"><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
-                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
-                    <button class="next-btn" aria-label="Следующий"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
+                    <button class="prev-btn" aria-label="Предыдущий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
+                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
+                    <button class="next-btn" aria-label="Следующий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
                 </div>
                 <div class="progress-row">
                     <span class="time-current">0:00</span>
@@ -813,6 +775,7 @@
 
 <script>
 (function() {
+    // Список треков
     const tracks = [
         { src: "Music.mp3", cover: "Music.jpg", title: "Смотри на небо", artist: "KARADA" },
         { src: "Music2.mp3", cover: "Music2.jpg", title: "MISSYOU", artist: "PPSH" }
@@ -825,6 +788,7 @@
     const bioCard = document.getElementById('bioCard');
     let started = false;
 
+    // ── Сплэш ──
     function updateSplashTime() {
         const now = new Date();
         const h = String(now.getHours()).padStart(2, '0');
@@ -840,15 +804,18 @@
         started = true;
         splash.classList.add('hidden');
         bioCard.classList.add('visible');
+        // загружаем первый трек и пробуем играть
         loadTrack(currentTrackIndex);
         audio.play().catch(() => console.warn('Автовоспроизведение заблокировано'));
     });
 
+    // Запрет двойного тапа и контекстного меню
     document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
     document.querySelectorAll('.avatar-wrapper').forEach(el => {
         el.addEventListener('contextmenu', (e) => e.preventDefault());
     });
 
+    // Тултип даты рождения
     document.querySelectorAll('.birthdate').forEach(bd => {
         const tip = bd.querySelector('.birthdate-tooltip');
         bd.addEventListener('click', (e) => {
@@ -863,6 +830,7 @@
         }
     });
 
+    // Кнопка "Поделиться"
     const toast = document.getElementById('toast');
     let toastTimeout;
     function showToast() {
@@ -892,6 +860,7 @@
         });
     });
 
+    // ── Частицы вокруг аватарок ──
     document.querySelectorAll('.avatar-container').forEach(container => {
         const canvas = container.querySelector('.particle-canvas');
         if (!canvas) return;
@@ -979,6 +948,7 @@
         window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
     });
 
+    // ── Музыкальный плеер ──
     const players = document.querySelectorAll('.music-player');
 
     function formatTime(sec) {
@@ -987,6 +957,7 @@
         return m + ':' + (s < 10 ? '0' : '') + s;
     }
 
+    // Функции иконок
     function getPlayIcon() {
         return `<svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>`;
     }
@@ -994,15 +965,19 @@
         return `<svg viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
     }
 
+    // Обновление UI трека
     function updateTrackUI(track) {
         document.querySelectorAll('.music-cover').forEach(img => img.src = track.cover);
         document.querySelectorAll('.music-title').forEach(el => el.textContent = track.title);
         document.querySelectorAll('.music-artist').forEach(el => el.textContent = track.artist);
+        // Сброс прогресса
         document.querySelectorAll('.time-current').forEach(el => el.textContent = '0:00');
         document.querySelectorAll('.progress-fill').forEach(el => el.style.width = '0%');
         document.querySelectorAll('.progress-dot').forEach(el => el.style.left = '0%');
+        // duration обновится после loadedmetadata
     }
 
+    // Загрузка трека по индексу
     function loadTrack(index) {
         if (index < 0) index = tracks.length - 1;
         if (index >= tracks.length) index = 0;
@@ -1011,6 +986,7 @@
         audio.src = track.src;
         audio.load();
         updateTrackUI(track);
+        // Если плеер был в состоянии play, запускаем
         if (isPlaying) {
             audio.play().catch(() => {});
         } else {
@@ -1018,6 +994,7 @@
         }
     }
 
+    // Обработчики кнопок
     document.querySelectorAll('.prev-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1041,22 +1018,7 @@
         });
     });
 
-    document.querySelectorAll('.progress-container').forEach(container => {
-        container.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const rect = this.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width;
-            if (audio.duration && isFinite(audio.duration)) {
-                const newTime = x * audio.duration;
-                audio.currentTime = newTime;
-                const pct = (newTime / audio.duration) * 100;
-                this.querySelector('.progress-fill').style.width = pct + '%';
-                this.querySelector('.progress-dot').style.left = pct + '%';
-                document.querySelectorAll('.time-current').forEach(el => el.textContent = formatTime(newTime));
-            }
-        });
-    });
-
+    // События аудио
     audio.addEventListener('loadedmetadata', () => {
         if (audio.duration && isFinite(audio.duration)) {
             document.querySelectorAll('.time-duration').forEach(el => el.textContent = formatTime(audio.duration));
@@ -1080,6 +1042,7 @@
     });
 
     audio.addEventListener('ended', () => {
+        // Автоматически переключить на следующий трек
         loadTrack(currentTrackIndex + 1);
     });
 
@@ -1094,15 +1057,11 @@
 
     audio.addEventListener('error', () => console.warn('Ошибка загрузки аудио'));
 
+    // Инициализация первым треком (но не запускаем до клика по сплэшу)
     loadTrack(0);
+    // Но после сплэша запустится play, поэтому в обработчике splash уже вызывается loadTrack и play
 
-    fetch('https://countapi.mileshilliard.com/api/v1/hit/sava_xz_bio')
-        .then(res => res.json())
-        .then(data => {
-            document.querySelectorAll('.views-count').forEach(el => el.textContent = data.value);
-        })
-        .catch(err => console.warn('Счётчик недоступен:', err));
-
+    // ── Эффект печати заголовка ──
     const titleText = 'Sava — Bio';
     let i = 0, isDeleting = false;
     const typeSpeed = 120, deleteSpeed = 60, pauseAfterFull = 2000;
@@ -1123,4 +1082,4 @@
 })();
 </script>
 </body>
-</html>
+</
