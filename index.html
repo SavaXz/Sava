@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -161,8 +162,9 @@
         width: 100%;
         height: var(--banner-height);
         overflow: hidden;
-        background: #1a1a1a;
+        background: #1a1a1a url('https://sava-xz.ru/banner.jpg?v=2') center/cover no-repeat;
         flex-shrink: 0;
+        position: relative;
     }
     .banner img {
         width: 100%;
@@ -549,7 +551,6 @@
         fill: none;
     }
 
-    /* Чёрно-белый стиль */
     .social-link svg,
     .music-controls button svg {
         filter: grayscale(100%);
@@ -659,7 +660,7 @@
 
     <div class="layout-mobile">
         <div class="banner">
-            <img src="banner.jpg" alt="banner" draggable="false">
+            <img src="https://sava-xz.ru/banner.jpg?v=2" alt="banner" draggable="false" loading="eager" decoding="async">
         </div>
         <div class="black-section">
             <div class="avatar-container">
@@ -700,9 +701,9 @@
                     <span class="music-artist">#keyoo</span>
                 </div>
                 <div class="music-controls">
-                    <button class="prev-btn" aria-label="Предыдущий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
-                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
-                    <button class="next-btn" aria-label="Следующий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
+                    <button class="prev-btn" aria-label="Предыдущий"><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
+                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
+                    <button class="next-btn" aria-label="Следующий"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
                 </div>
                 <div class="progress-row">
                     <span class="time-current">0:00</span>
@@ -752,7 +753,7 @@
 
         <div class="right-side">
             <div class="banner">
-                <img src="banner.jpg" alt="banner" draggable="false">
+                <img src="https://sava-xz.ru/banner.jpg?v=2" alt="banner" draggable="false" loading="eager" decoding="async">
             </div>
             <div class="music-player">
                 <img src="cover1.jpg" alt="Обложка" class="music-cover" draggable="false">
@@ -761,9 +762,9 @@
                     <span class="music-artist">#keyoo</span>
                 </div>
                 <div class="music-controls">
-                    <button class="prev-btn" aria-label="Предыдущий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
-                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
-                    <button class="next-btn" aria-label="Следующий"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
+                    <button class="prev-btn" aria-label="Предыдущий"><svg viewBox="0 0 24 24" fill="white"><polygon points="19,20 9,12 19,4"/><rect x="5" y="4" width="2" height="16"/></svg></button>
+                    <button class="play-pause-btn" aria-label="Воспроизвести/пауза"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></button>
+                    <button class="next-btn" aria-label="Следующий"><svg viewBox="0 0 24 24" fill="white"><polygon points="5,4 15,12 5,20"/><rect x="17" y="4" width="2" height="16"/></svg></button>
                 </div>
                 <div class="progress-row">
                     <span class="time-current">0:00</span>
@@ -1060,7 +1061,7 @@
     function randChar() { return obfuscateChars[Math.floor(Math.random() * obfuscateChars.length)]; }
     function obfuscatedString(len) { let s = ''; for (let k = 0; k < len; k++) s += randChar(); return s; }
 
-    let phase = 'reveal'; // reveal | show | delete | wait
+    let phase = 'reveal';
     let revealIdx = 0;
     let deleteIdx = titleText.length;
     let tickCount = 0;
@@ -1068,7 +1069,6 @@
     function tickTitle() {
         if (phase === 'reveal') {
             tickCount++;
-            // Every 2 ticks advance one character
             if (tickCount % 2 === 0 && revealIdx < titleText.length) revealIdx++;
             let s = '';
             for (let k = 0; k < titleText.length; k++) {
@@ -1110,3 +1110,4 @@
 </script>
 </body>
 </html>
+```
