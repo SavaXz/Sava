@@ -171,19 +171,6 @@
     .banner img {
         display: none;
     }
-    .hb-img {
-        position: absolute;
-        right: 8px;
-        top: 8px;
-        height: 75%;
-        width: auto;
-        object-fit: contain;
-        mix-blend-mode: screen;
-        pointer-events: none;
-        z-index: 2;
-        -webkit-user-drag: none;
-        display: block !important;
-    }
     .layout-mobile .banner {
         border-radius: var(--border-radius) var(--border-radius) 0 0;
     }
@@ -563,6 +550,7 @@
         fill: none;
     }
 
+    /* Чёрно-белый стиль */
     .social-link svg,
     .music-controls button svg {
         filter: grayscale(100%);
@@ -672,7 +660,6 @@
 
     <div class="layout-mobile">
         <div class="banner" style="background-image: url('https://i.postimg.cc/W1P2cmc4/banner.jpg');">
-            <img src="HB.jpg" class="hb-img" alt="" draggable="false">
         </div>
         <div class="black-section">
             <div class="avatar-container">
@@ -684,11 +671,11 @@
 
             <div class="name-row">
                 <span class="name">Sava</span>
-                <img src="HB.gif" alt="badge" class="badge-icon" draggable="false">
+                <img src="badge.gif" alt="badge" class="badge-icon" draggable="false">
             </div>
 
             <div class="bio-desc">
-                <span>y.o 15</span>
+                <span>y.o 14</span>
                 <span class="birthdate">11.09
                     <span class="birthdate-tooltip">🎂 Это мой день рождения</span>
                 </span>
@@ -740,11 +727,11 @@
 
             <div class="name-row">
                 <span class="name">Sava</span>
-                <img src="Sava.gif" alt="badge" class="badge-icon" draggable="false">
+                <img src="badge.gif" alt="badge" class="badge-icon" draggable="false">
             </div>
 
             <div class="bio-desc">
-                <span>y.o 15</span>
+                <span>y.o 14</span>
                 <span class="birthdate">11.09
                     <span class="birthdate-tooltip">🎂 Это мой день рождения</span>
                 </span>
@@ -765,7 +752,6 @@
 
         <div class="right-side">
             <div class="banner" style="background-image: url('https://i.postimg.cc/W1P2cmc4/banner.jpg');">
-                <img src="HB.jpg" class="hb-img" alt="" draggable="false">
             </div>
             <div class="music-player">
                 <img src="cover1.jpg" alt="Обложка" class="music-cover" draggable="false">
@@ -823,118 +809,11 @@
     updateSplashTime();
     setInterval(updateSplashTime, 1000);
 
-    // ── Конфетти ──
-    (function() {
-        const cCanvas = document.createElement('canvas');
-        cCanvas.style.position = 'fixed';
-        cCanvas.style.inset = '0';
-        cCanvas.style.width = '100%';
-        cCanvas.style.height = '100%';
-        cCanvas.style.pointerEvents = 'none';
-        cCanvas.style.zIndex = '9999';
-        document.body.appendChild(cCanvas);
-        const cCtx = cCanvas.getContext('2d');
-        let cW, cH, cParticles = [];
-        function cResize() {
-            cW = cCanvas.width = window.innerWidth;
-            cH = cCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', cResize);
-        cResize();
-
-        class CParticle {
-            constructor(x, y, direction) {
-                this.x = x;
-                this.y = y;
-
-                if (direction === 'rain') {
-                    // Дождь сверху (для старта)
-                    this.vx = (Math.random() - 0.5) * 3;
-                    this.vy = 3 + Math.random() * 5;
-                    this.gravity = 0.08;
-                    this.friction = 0.99;
-                } else {
-                    // Разлёт от точки (для даты рождения)
-                    const spread = 1.2;
-                    let angle;
-                    if (direction === 'left') angle = Math.PI + (Math.random() - 0.5) * spread;
-                    else if (direction === 'right') angle = (Math.random() - 0.5) * spread;
-                    else angle = Math.random() * Math.PI * 2;
-                    const speed = 5 + Math.random() * 7;
-                    this.vx = Math.cos(angle) * speed;
-                    this.vy = Math.sin(angle) * speed - 4;
-                    this.gravity = 0.2;
-                    this.friction = 0.97;
-                }
-
-                this.size = 5 + Math.random() * 7;
-                this.color = 'hsl(' + (Math.random() * 360) + ', 100%, 65%)';
-                this.rotation = Math.random() * 360;
-                this.rotSpeed = (Math.random() - 0.5) * 12;
-                this.life = 1;
-                this.decay = 0.006 + Math.random() * 0.008;
-                this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
-            }
-            update() {
-                this.vx *= this.friction;
-                this.vy *= this.friction;
-                this.vy += this.gravity;
-                this.x += this.vx;
-                this.y += this.vy;
-                this.rotation += this.rotSpeed;
-                this.life -= this.decay;
-            }
-            draw() {
-                cCtx.save();
-                cCtx.translate(this.x, this.y);
-                cCtx.rotate(this.rotation * Math.PI / 180);
-                cCtx.globalAlpha = Math.max(0, this.life);
-                cCtx.fillStyle = this.color;
-                if (this.shape === 'rect') {
-                    cCtx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
-                } else {
-                    cCtx.beginPath();
-                    cCtx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-                    cCtx.fill();
-                }
-                cCtx.restore();
-            }
-        }
-
-        // Дождь сверху (для старта)
-        window.fireConfettiRain = function(count) {
-            count = count || 80;
-            for (let i = 0; i < count; i++) {
-                const rx = Math.random() * cW;
-                const ry = -20 - Math.random() * 150;
-                cParticles.push(new CParticle(rx, ry, 'rain'));
-            }
-        };
-
-        // Разлёт от точки (для даты рождения)
-        window.fireConfetti = function(x, y, direction, count) {
-            count = count || 60;
-            for (let i = 0; i < count; i++) cParticles.push(new CParticle(x, y, direction));
-        };
-
-        function cAnimate() {
-            cCtx.clearRect(0, 0, cW, cH);
-            cParticles = cParticles.filter(p => p.life > 0);
-            cParticles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(cAnimate);
-        }
-        cAnimate();
-    })();
-
     splash.addEventListener('click', () => {
         if (started) return;
         started = true;
         splash.classList.add('hidden');
         bioCard.classList.add('visible');
-
-        // При старте — дождь сверху
-        if (window.fireConfettiRain) window.fireConfettiRain(120);
-
         loadTrack(currentTrackIndex);
         audio.play().catch(() => console.warn('Autoplay blocked'));
     });
@@ -944,22 +823,12 @@
         el.addEventListener('contextmenu', (e) => e.preventDefault());
     });
 
-    // ── Тултип даты рождения + конфетти ИЗ ДАТЫ ──
     document.querySelectorAll('.birthdate').forEach(bd => {
         const tip = bd.querySelector('.birthdate-tooltip');
-        if (tip) tip.textContent = '🎉 Сегодня мой день рождения!';
         bd.addEventListener('click', (e) => {
             e.stopPropagation();
             document.querySelectorAll('.birthdate-tooltip').forEach(t => { if (t !== tip) t.classList.remove('show'); });
             if (tip) tip.classList.toggle('show');
-
-            // Конфетти вылетает ИЗ точки, где находится дата
-            if (window.fireConfetti) {
-                const rect = bd.getBoundingClientRect();
-                const cx = rect.left + rect.width / 2;
-                const cy = rect.top + rect.height / 2;
-                window.fireConfetti(cx, cy, 'center', 80);
-            }
         });
     });
     document.addEventListener('click', (e) => {
@@ -1190,7 +1059,7 @@
     function randChar() { return obfuscateChars[Math.floor(Math.random() * obfuscateChars.length)]; }
     function obfuscatedString(len) { let s = ''; for (let k = 0; k < len; k++) s += randChar(); return s; }
 
-    let phase = 'reveal';
+    let phase = 'reveal'; // reveal | show | delete | wait
     let revealIdx = 0;
     let deleteIdx = titleText.length;
     let tickCount = 0;
@@ -1198,6 +1067,7 @@
     function tickTitle() {
         if (phase === 'reveal') {
             tickCount++;
+            // Every 2 ticks advance one character
             if (tickCount % 2 === 0 && revealIdx < titleText.length) revealIdx++;
             let s = '';
             for (let k = 0; k < titleText.length; k++) {
